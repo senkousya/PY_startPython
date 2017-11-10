@@ -30,11 +30,11 @@ windowsのパッケージ管理ソフトchocolateyに
 
 chocolateを利用しない場合は公式ドキュメントの[3. Windows で Python を使う](https://docs.python.org/ja/3/using/windows.html#using-python-on-windows)を参照してインストールして下さい。(左上のプルダウンから英語、フランス語、日本語が選択できる)
 
-なおPythonのパッケージ管理ツールであるpipは下記記載のバージョンから標準で同梱されているらしいので、個別に導入という事はしていません。
+なおPythonのパッケージ管理ツールであるpipは後述のバージョンから標準で同梱されているらしいので、個別に導入という事はしていません。
 
 (実際Pythonをインストールしたディレクトリのscriptsフォルダの中にpip.exeが入ってた)
 
-### pipが標準で同梱
+## 🔰pipが標準で同梱
 
 [Requirements for Installing Packages](https://packaging.python.org/tutorials/installing-packages/#requirements-for-installing-packages)
 
@@ -64,16 +64,12 @@ VSCodeにPython向けの拡張機能が用意されているのでインスト�
 
 ## 🔰pylintのインストール
 
-拡張機能をインストルしてVSCodeでpyファイルをコーディングしようとすると。
-
+拡張機能をインストルしてVSCodeでpyファイルをコーディングしようとすると下記の様なメッセージが出てくるかと思います。  
 ![](image/vscode.pylint.notfound.png)
-
-というメッセージが出てくるかと思います。
 
 pylintはPythonのコーディングを採点をしてくれるパッケージで。
 
-Pythonの拡張機能をインストールした後に基本設定でPythonの所をみると、pylintを標準で利用するユーザ設定になっている様子。
-
+Pythonの拡張機能をインストールした後に基本設定でPythonの所をみると、pylintを標準で利用するユーザ設定になっている様子。  
 ![](image/vscode.lint.setting.png)
 
 なのでpylintが入っていないと上記のようなエラーが出るようです。
@@ -96,6 +92,46 @@ Pythonの拡張機能をインストールした後に基本設定でPythonの�
 print("Hello World!")
 
 ```
+
+### 💎ファイルの保存
+
+VSCode画面右下の赤枠の文字コードを確認。
+uft-8以外の場合は赤枠の所をクリックするとエンコーディングを選択できるのでuft-8を選択  
+![](image/vscode.encoding.step001.png)
+
+保存するエンコーディングを選択できる  
+![](image/vscode.encoding.step002.png)
+
+名前を付けて保存で適当な場所にソースを保存して下さい。
+例ではhelloworld.py  
+![](image/vscode.savefile.png)
+
+### 💎pylintでコード採点
+
+せっかくなので保存したファイルをpylintで採点してみる。
+
+```Powershell
+pylint ソースコード  
+```
+
+![](image/vscode.pylint.helloworld.png)
+
+ちなみにVSCodeの問題画面(ctrl+shift+m)にチェック結果が表示されていました。
+タイプするたびに動的にチェックしている様子。
+（だから前述するpyファイルをコーディングする時にpylintが入ってないってエラーと言われてそう）
+
+### 💎Pythonプログラムの実行
+
+コマンドラインから**python プログラム名** としても実行できる。  
+![](image/helloworld.startCommand.step001.png)
+
+プログラ名のみでも実行できる。
+(インストール時に.pyファイルにpy.exeが関連づけられている為)  
+![](image/helloworld.startCommand.step002.png)
+
+なお、上記の例だといちいちpowershellを起動して実行していますが。
+
+VSCodeのctrl+@で統合ターミナルに画面遷移するのでそちらで実行するのがコーディングしながらだと手早い感じ。
 
 ## 🔰Pythonは処理ブロックをインデントで記述
 
@@ -145,21 +181,21 @@ LINUXやらUNIXやらで意味するものかと思いきや、Using Python on W
 
 と記載があるのでバージョン指定もできる。
 
-試しにPython3.6しかインストールされてない環境でshebangで#!/usr/bin/python2と記載したpyファイルを実行してみる。
-
+試しにPython3.6しかインストールされてない環境でshebangで#!/usr/bin/python2と記載したpyファイルを実行してみる。  
 ![](image/test.shebang.png)
 
 Python version 2がないと言われる。
 
 上記は、test.shebang.pyというファイルの中身をget-contentで確認してから、pyファイルを実行している例。
-（Pythonインストール時にpyファイルをpy.exeというPython Launcherに関連づけてくれる。このpy.exeがshebangを解釈してうまいことプログラムが実行される）
+
+Pythonはインストール時にpyファイルをpy.exeというPython Launcherに関連づけてくれる。このpy.exeがshebangを解釈してうまいことプログラムが実行される
 
 今回はPython3.6なので#!/usr/bin/python3と設定。
 もっと細かく指定する必要があればshebangを#!/usr/bin/python3.6とかすればよい。
 
 ## 🔰ソースファイルのエンコーディング
 
-2行目の
+helloworld.pyの2行目に記載しているのがソースコードの文字コード指定
 
 > `# -*- coding: utf-8 -*-`
 
@@ -176,69 +212,21 @@ Pythonソースファイルはデフォルトでutf-8[(PEP 3120)](https://www.py
 
 また[Issue1503789](http://bugs.python.org/issue1503789)をみるとPythonのソースコードはuft16ではコーディングできないようです。
 
-## 🔰ファイルの保存
-
-VSCode画面右下の赤枠の文字コードを確認。
-uft-8以外の場合は赤枠の所をクリックするとエンコーディングを選択できるのでuft-8を選択
-
-![](image/vscode.encoding.step001.png)
-
-![](image/vscode.encoding.step002.png)
-
-名前を付けて保存で適当な場所にソースを保存して下さい。
-
-![](image/vscode.savefile.png)
-
-## 🔰pylintでコード採点
-
-せっかくなので保存したファイルをpylintで採点してみる。
-
-pylint ソースコード
-
-![](image/vscode.pylint.helloworld.png)
-
-|Global evaluation|
-|-----------------|
-|Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)|
-
-ちなみにVSCodeの問題画面(ctrl+shift+m)にチェック結果が常に表示されていました。
-コーディングするたびに動的にチェックしている様子。
-（だから前述するpyファイルをコーディングする時にpylintが入ってないってエラーと言われてそう）
-
-## 🔰Pythonプログラムの実行
-
-コマンドラインから**python プログラム名** としても実行できる。
-
-![](image/helloworld.startCommand.step001.png)
-
-プログラ名のみでも実行できる。
-(インストール時に.pyファイルにpy.exeが関連づけられている為)
-
-![](image/helloworld.startCommand.step002.png)
-
-なお、上記の例だといちいちpowershellを起動して実行していますが。
-
-VSCodeのctrl+@で統合ターミナルに画面遷移するのでそちらで実行するのがコーディングしながらだと手早い感じ。
-
 ## 🔰Pythonを対話モードで起動してみる
 
-Pythonとコマンド叩くと対話モードで起動する。(処理を抜けるにはexit() or Ctrl-Z）
-対話式で逐次処理を行える。
-
+Pythonとコマンド叩くとREPL（Read eval print loop：対話的実行環境）で起動する。(処理を抜けるにはexit() or Ctrl-Z）
+対話式で逐次処理を行える。  
 ![](image/python.interactivemode.png)
 
 ## 🔰VSCodeからデバック実行
 
-デバックからデバックの開始　もしくはデバック画面(ctrl+shift+d)のデバックの開始を押すとデバックが始まる。
-
+デバックからデバックの開始　もしくはデバック画面(ctrl+shift+d)のデバックの開始を押すとデバックが始まる。  
 ![](image/helloworld.vscode.debug.step001.png)
 
-続行（F5)で処理がデバック実行されていき。
-
+続行（F5)で処理がデバック実行されていき。  
 ![](image/helloworld.vscode.debug.step002.png)
 
-最後まで実行するとデバックコンソールに **Hello World!** と表示される。
-
+最後まで実行するとデバックコンソールに **Hello World!** と表示される。  
 ![](image/helloworld.vscode.debug.step003.png)
 
 ちなみにVSCodeではlaunch.jsonというファイルを作って、高度なデバック設定（引数渡して実行したり色々）をすることができる。
@@ -272,8 +260,7 @@ pip.exe uninstall パッケージ名
 ```
 
 ちなみにdownloadコマンドでパッケージのダウンロードを行い。
-そのダウンロードしたファイルを指定してinstallする。なんてこともできる。
-
+そのダウンロードしたファイルを指定してinstallする。なんてこともできる。  
 ![](image/pip.download.install.png)
 
 上記の例だとpip download botoでパッケージのダウンロードを行い。
@@ -311,8 +298,7 @@ deactivate
 
 と実行すれば、環境から抜ける事ができる。
 
-.envという仮想環境を作成、有効化して抜ける一連の流れを行った例。
-
+.envという仮想環境を作成、有効化して抜ける一連の流れを行った例。  
 ![](image/python.venv.png)
 
 様々なパッケージが乱立する汚染された環境で開発を行うのではなく、対象となる環境を見据えて仮想環境をそれぞれ構築して開発を行っていきたい所です。
@@ -336,26 +322,21 @@ print(sys.argv)
 
 このargv.pyファイルに対してデバック時に引数を渡すようにlaunch.jsonを設定していきます。
 
-まずはデバック画面で**構成の追加**を選択します。
-
+まずはデバック画面で**構成の追加**を選択します。  
 ![](image/python.debug.launch.step001.png)
 
-launch.jsonファイルが作成されます。
-
+launch.jsonファイルが作成されます。  
 ![](image/pyhotn.debug.launch.step002.png)
 
-※.pyファイルを開きながら構成の追加をすると、自動的にPythonの構成が追加される。選択してない場合は下記のように構成の言語選択がでるのでPythonを選択する。
-
+※.pyファイルを開きながら構成の追加をすると、自動的にPythonの構成が追加される。選択してない場合は下記のように構成の言語選択がでるのでPythonを選択する。  
 ![](image/python.debug.launch.comment001.png)
 
 選択しているPythonという部分が、現在VSCodeで開いているファイルをデバックする設定になっていのでこの部分をコピペして改造していく。
 
-Pythonの部分を選択して
-
+Pythonの部分を選択して  
 ![](image/python.debug.launch.step003.png)
 
-選択した部分の下に追加
-
+選択した部分の下に追加  
 ![](image/python.debug.launch.step004.png)
 
 コピペしたPythonの部分を下記のように書き換え
@@ -368,20 +349,16 @@ Pythonの部分を選択して
 
 ![](image/python.debug.launch.step005.png)
 
-デバックの所を確認するとargvが追加されている。
-
+デバックの所を確認するとargvが追加されている。  
 ![](image/python.debug.launch.step006.png)
 
-argvを選択してデバック実行。
-
+argvを選択してデバック実行。  
 ![](image/python.debug.launch.step007.png)
 
-デバック実行される、続行(F5)で処理する。
-
+デバック実行される、続行(F5)で処理する。  
 ![](image/python.debug.launch.step008.png)
 
-デバックコンソールに下記のように、argv.pyに指定した引数で実行された事が確認できる。
-
+デバックコンソールに下記のように、argv.pyに指定した引数で実行された事が確認できる。  
 ![](image/python.debug.launch.step009.png)
 
 デバックコンソールに下記のように表示され、argv.pyに対して引数がデバック実行されたのがわかる。
